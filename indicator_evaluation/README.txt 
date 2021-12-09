@@ -1,0 +1,93 @@
+# Documentation
+This README should help you run this project in your local enviromnent
+
+## testproject.py
+  This is core executable, it
+  1. generates charts for all the indicators implemented in indicators.py
+  2. generates graph using TheoreticallyOptimalStrategy.py comparing benchmark
+     vs. optimal trading strategies
+
+  The stock traded in here is by default 'JPM', start date is 2008/01/01,
+  end date is 2009/12/31.
+  Run this file by 
+  ```
+  python testproject.py  
+  ```
+
+## indicators.py
+  5 different indicators are implemented in this file with their helper functions
+  * `rolling_mean`
+  * `percent_B`
+  * `momentum`
+  * `ema`
+  * `MACD`
+
+  The first 4 functions expect 4 arguments
+  * `symbol` ticker of a stock
+  * `sd` start data
+  * `ed` end data
+  * `window` window for rolling stats
+  `MACD` does not require `window`
+
+  All functions return one or two dataframes with date index column and a column
+  with respective stats value. For example, `rolling_mean` returns
+  |Date|SMA|
+  |-|-|
+  |2008/01/02|23.4|
+  |...|...|
+
+  Note:
+  `window` is also used to fill window * 2 days ahead of start date so that rolling
+  metrics can be capture for the start date.
+
+  import functions from this file to run them 
+  ```
+  from indicators import MACD, bollinger_bands, momentum, percent_B, rolling_mean, ema
+  symbol = 'JPM' 
+  sd = dt.datetime(2008, 1, 1)
+  ed = dt.datetime(2009, 12, 31)
+  window = 14
+
+  sma = rolling_mean(symbol, sd, ed, window)
+  percent_B = percent_B(symbol, sd, ed, window)
+  ```
+
+
+## TheoreticallyOptimalStrategy.py  
+  `testPolicy` is implemented in this file which expects 4 arguments
+  * `symbol` ticker of a stock
+  * `sd` start data
+  * `ed` end data
+  * `sv` starting cash (not a limit in this case)
+
+  It returns trading dataframed with date index column and a order column. Postive means
+  buy and negative means sell. The strategy is that if the next day's price is higher than
+  the current day's price, a buy order is placed (long), and if the next day's price is lower
+  than the current day's price, a sell order is placed (short). The allowed positions are
+  hard-coded as +1000, 0, -1000, and in order to execute an optimal strategy, a buy order is
+  is always 1000 (if current position is 0) or 2000 (if current position is -1000), a sell order
+  is always -1000 (if current position is 0) or -2000 (if current position is 1000)
+
+  import functions from this file to run them 
+  ```
+  import TheoreticallyOptimalStrategy as tos  
+  df_trades = tos.testPolicy(symbol = "JPM", sd=dt.datetime(2008, 1, 1), ed=dt.datetime(2009,12,31), sv = 100000)  
+  ```
+
+## marketsimcode.py
+  `compute_portvals` is implemented in this file which expects 6 arguments
+  * orders,
+  * symbol="JPM",
+  * port_val_name='Benchmark',
+  * start_val=100000,
+  * commission=0,
+  * impact=0,
+
+  It accepts a order dataframe, expecting it being 'JPM' by default and return daily portfolio
+  values as a dataframe
+
+  ```
+  from marketsimcode import compute_portvals
+  benchmark_port = compute_portvals(
+    orders, symbol, port_val_name='Benchmark', start_val=100000)
+  ```

@@ -135,7 +135,7 @@ def find_daily_returns(allocs, prices):
     daily_returns = port_val_normed.copy()
     daily_returns[1:] = (port_val_normed[1:] / port_val_normed[:-1].values) - 1 # compute daily returns for row 1 onwards
     daily_returns.iloc[0] = 0  # Pandas leaves the 0th row full of Nans
-    print(daily_returns)
+
     return daily_returns
 
 

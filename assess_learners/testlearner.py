@@ -35,6 +35,7 @@ from BagLearner import BagLearner
 import LinRegLearner as lrl
 import math
 if __name__ == "__main__":
+    print(time.time())
     if len(sys.argv) != 2:
         print("Usage: python testlearner.py <filename>")
         sys.exit(1)
@@ -156,7 +157,7 @@ if __name__ == "__main__":
     plt.ylim()
     plt.legend(loc='lower right')
     # plt.show()
-    plt.savefig('experiment_1_{}_times_avg.png'.format(times))
+    # plt.savefig('experiment_1_{}_times_avg.png'.format(times))
     plt.close()
 
     # Similar to bagging, basically sampling without replacement
@@ -172,7 +173,7 @@ if __name__ == "__main__":
     plt.ylim()
     plt.legend(loc='lower right')
     # plt.show()
-    plt.savefig('experiment_1_{}_times_avg.png'.format(times))
+    # plt.savefig('experiment_1_{}_times_avg.png'.format(times))
     plt.close()
 
 
@@ -194,7 +195,7 @@ if __name__ == "__main__":
     plt.ylim()
     plt.legend(loc='lower right')
     # plt.show()
-    plt.savefig('experiment_2_{}_times_avg.png'.format(times))
+    # plt.savefig('experiment_2_{}_times_avg.png'.format(times))
     plt.close()
 
 
@@ -225,7 +226,7 @@ if __name__ == "__main__":
     plt.xlim(left=0)
     plt.ylim()
     plt.legend(loc='lower right')
-    plt.savefig('experiment_3_dtl_vs_rtl_mae_{}_times_avg.png'.format(times))
+    # plt.savefig('experiment_3_dtl_vs_rtl_mae_{}_times_avg.png'.format(times))
     plt.close()
 
     plt.plot(x, time_to_build_d, label='DTLearner')
@@ -237,7 +238,7 @@ if __name__ == "__main__":
     plt.ylim()
     plt.legend(loc='upper right')
     # plt.show()
-    plt.savefig('experiment_3_time_to_build_{}_times_avg.png'.format(times))
+    # plt.savefig('experiment_3_time_to_build_{}_times_avg.png'.format(times))
     plt.close()
 
     # correlation_matrix = np.corrcoef(y_in_sample, y_out_sample)
@@ -245,7 +246,7 @@ if __name__ == "__main__":
     # print(correlation_xy**2)
 
     dtl_bags = 10
-    times = 10
+    times = 30
     y_in_sample, y_out_sample, time_to_build_d = execute_bag_learner(
         DTLearner, bags=dtl_bags, data=data, total_leaf=total_leaf, times=times, func=find_mae)
 
@@ -265,7 +266,7 @@ if __name__ == "__main__":
     plt.ylim()
     plt.legend(loc='lower right')
     # plt.show()
-    plt.savefig('experiment_3_bagged_dtl_vs_rtl_{}_times_avg.png'.format(times))
+    # plt.savefig('experiment_3_bagged_dtl_vs_rtl_{}_times_avg.png'.format(times))
     plt.close()
 
     plt.plot(x, time_to_build_d, label='{} Bagged DTLearner'.format(dtl_bags))
@@ -277,5 +278,6 @@ if __name__ == "__main__":
     plt.ylim()
     plt.legend(loc='upper right')
     # plt.show()
-    plt.savefig('experiment_3_bagged_time_to_build_{}_times_avg.png'.format(times))
+    # plt.savefig('experiment_3_bagged_time_to_build_{}_times_avg.png'.format(times))
     plt.close()
+    print(time.time())
